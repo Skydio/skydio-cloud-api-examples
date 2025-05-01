@@ -17,7 +17,7 @@ examples/
 │   ├── live_telemetry.py
 │   └── download_media.py
 ├── javascript/
-│   └── [coming soon]
+│   └── media-downloader/
 ```
 
 Each script is standalone, runnable, and includes inline comments explaining what's happening at each step.
