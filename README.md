@@ -4,24 +4,123 @@ This repository contains a collection of example scripts demonstrating how to in
 
 Whether you're building new workflows to integrate with Skydio or just exploring what the API can do, these examples are intended to help you get started quickly.
 
----
+## How to use
 
-## Repository Structure
+The examples in this repository are organized by language for clarity and flexibility.
+Each example is in its own folder.
 
-The examples in this repository are organized by language for clarity and flexibility:
+You will need a Skydio API Token, which can be obtained from Integrations settings in https://cloud.skydio.com. The API Token ID can be obtained by clicking details on the API Token.
 
+To get started, follow these steps:
+
+Unix:
+
+```bash
+# Clone this repo
+git clone https://github.com/Skydio/skydio-cloud-api-examples.git
+
+# Navigate to this repo folder
+cd skydio-cloud-api-examples
+
+# Set your Skydio API token
+# Your Skydio API token
+export API_TOKEN="your_skydio_api_token"
+export API_TOKEN_ID="your_skydio_api_token_id"
 ```
-examples/
-├── python/
-│   ├── marker_crud.py
-│   ├── live_telemetry.py
-│   └── download_media.py
-├── javascript/
-│   └── media-downloader/
+
+Windows PowerShell:
+
+```powershell
+# Clone this repo
+git clone https://github.com/Skydio/skydio-cloud-api-examples.git
+
+# Navigate to this repo folder
+cd skydio-cloud-api-examples
+
+# Set your Skydio API token
+$env:API_TOKEN = "your_skydio_api_token"
+$env:API_TOKEN_ID = "your_skydio_api_token_id"
 ```
 
-Each script is standalone, runnable, and includes inline comments explaining what's happening at each step.
-Consult the README for each subdirectory for language- or script-specific usage instructions.
+Then follow the instructions for the specific language of the example you want to use.
+
+### Python examples
+
+To run a Python example, you need python3 to be installed. Then follow these steps:
+
+Unix:
+
+```bash
+# Navigate to the example directory
+cd examples/python-<example_name>
+
+# (Optional) Create and activate a virtual environment
+python3 -m venv venv
+source venv/bin/activate  # or `venv\Scripts\activate` on Windows
+
+# Install project packages
+pip install -e .
+
+# Run the script
+python main.py
+```
+
+Windows PowerShell:
+
+```powershell
+# Navigate to the example directory
+cd examples\python-<example_name>
+
+# (Optional) Create and activate a virtual environment
+python3 -m venv venv
+venv\Scripts\activate
+
+# Install project packages
+pip install -e .
+
+# Run the script
+python main.py
+```
+
+See each example's README.md for specific usage instructions.
+
+If you encounter any `ModuleNotFoundError`s, install the missing dependencies with:
+
+```bash
+pip install <dependency-name>
+```
+
+### Javascript examples
+
+To run a Javascript example, you need Node.js to be installed. Then follow these steps:
+
+Unix:
+
+```bash
+# Navigate to the example directory
+cd examples/javascript-<example_name>
+
+# Install dependencies
+npm install
+
+# Run the script
+npm run start
+```
+
+Windows PowerShell:
+
+```powershell
+# Navigate to the example directory
+cd examples\javascript-<example_name>
+
+# Install dependencies
+npm install
+
+# Run the script
+npm run start
+```
+
+See each example's README.md for specific usage instructions.
 
 ## Using LLMs to Build Integrations
 
@@ -72,8 +171,6 @@ Can you add error handling to the API requests?
 ```
 Update the script to read the API token from an environment variable instead of using a hard-coded global variable.
 ```
-
----
 
 ## Resources
 

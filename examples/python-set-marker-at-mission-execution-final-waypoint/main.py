@@ -1,18 +1,4 @@
 #!/usr/bin/env python3
-"""
-This script demonstrates how to:
-1) Fetch mission runs associated with a given flight ID using the Skydio API.
-2) For each mission run, retrieve the corresponding Mission Template.
-3) Identify the final waypoint in the mission template that has GPS coordinates.
-4) Create (upsert) a marker at that final waypoint's location using the Skydio API,
-   so it appears in Remote Flight Deck for DFR Command customers.
-
-USAGE:
-  1) Export your API token:
-     export API_TOKEN="YOUR_API_TOKEN"
-  2) Run this script with the desired flight ID:
-     python set_marker_at_mission_execution_final_waypoint.py --flight_id <YOUR_FLIGHT_ID>
-"""
 
 import os
 import sys
@@ -22,20 +8,14 @@ import requests
 
 SKYDIO_API_BASE_URL = "https://api.skydio.com/api/v0"
 
+
 def get_headers(auth_token):
-    return {
-        "Authorization": auth_token,
-        "Accept": "application/json"
-    }
+    return {"Authorization": auth_token, "Accept": "application/json"}
 
 
 def get_mission_runs_for_flight(flight_id, auth_token):
     url = f"{SKYDIO_API_BASE_URL}/mission_runs"
-    params = {
-        "flight_id": flight_id,
-        "per_page": 25,
-        "page_number": 1
-    }
+    params = {"flight_id": flight_id, "per_page": 25, "page_number": 1}
 
     response = requests.get(url, headers=get_headers(auth_token), params=params)
     response.raise_for_status()
@@ -57,7 +37,7 @@ def upsert_marker(
     event_time,
     marker_type="INCIDENT",
     source_name="integration_test",
-    title="Mission Waypoint"
+    title="Mission Waypoint",
 ):
     """
     Step 4) Create or update a marker at the given latitude/longitude.
@@ -72,10 +52,7 @@ def upsert_marker(
         "longitude": longitude,
         "description": description,
         "event_time": event_time,
-        "marker_details": {
-            "source_name": source_name,
-            "title": title
-        }
+        "marker_details": {"source_name": source_name, "title": title},
     }
 
     response = requests.post(url, headers=get_headers(auth_token), json=payload)
@@ -94,7 +71,7 @@ def main():
     parser.add_argument(
         "--flight_id",
         required=True,
-        help="Flight ID used to fetch mission runs and the associated mission template"
+        help="Flight ID used to fetch mission runs and the associated mission template",
     )
     args = parser.parse_args()
 
@@ -140,7 +117,9 @@ def main():
         final_waypoint = waypoints[-1]  # last item
         position = final_waypoint.get("position", {})
         if position.get("frame") != "GPS":
-            print("Warning: Final waypoint does not have GPS coordinates. Skipping marker.")
+            print(
+                "Warning: Final waypoint does not have GPS coordinates. Skipping marker."
+            )
             continue
 
         lat = position["latitude"]
@@ -153,7 +132,7 @@ def main():
             latitude=lat,
             longitude=lon,
             description=description,
-            event_time=event_time
+            event_time=event_time,
         )
 
         print(f"Created marker for mission run {run_uuid}:\n", marker_response)

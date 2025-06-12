@@ -1,31 +1,3 @@
-"""
-This script demonstrates how to use the Skydio Cloud API to retrieve and display information
-about all batteries in your Skydio fleet. It provides a comprehensive report including:
-- Battery serial numbers and names
-- Cycle counts and flight counts
-- Voltage and temperature metrics
-- Total flight time
-- Health status based on key metrics
-
-Usage instructions:
-1. Set up your environment and install the required packages. See the README for details.
-
-2. Set the following environment variables:
-```
-export API_TOKEN="your_token_here"
-```
-
- - API_TOKEN: refers to the token secret, which is only visible immediately after creating the token.
-
-3. Run the script:
-```
-python generate_batteries_report.py [--csv_file /path/to/output.csv]
-```
-
-Optional arguments:
-  --csv_file CSV_FILE, -c CSV_FILE  Path to CSV file where results will be saved
-"""
-
 import os
 import csv
 import argparse
@@ -51,7 +23,9 @@ def get_all_batteries():
     r = requests.get(f"{API_BASE}/v0/batteries", headers=get_headers())
     response = r.json()
     if response.get("status_code") != 200:
-        print(f"Error fetching batteries: {response.get('error_message', 'Unknown error')}")
+        print(
+            f"Error fetching batteries: {response.get('error_message', 'Unknown error')}"
+        )
         return []
     return response.get("data", {}).get("batteries", [])
 
@@ -79,12 +53,12 @@ def get_battery_health_status(cycles, min_voltage, max_temp):
 def display_battery_info(csv_file=None):
     """
     Display formatted battery information and optionally save to CSV
-    
+
     Args:
         csv_file (str, optional): Path to CSV file where results will be saved
     """
     print("\n🔋 BATTERY FLEET REPORT 🔋")
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"Generated on: {timestamp}\n")
 
     batteries = get_all_batteries()
@@ -163,7 +137,7 @@ def display_battery_info(csv_file=None):
             f"Most Used Battery: {most_used.get('battery_name', 'Unnamed')} "
             f"({most_used.get('battery_serial')}) - {most_used.get('cycles', 0)} cycles"
         )
-    
+
     # Export to CSV if requested
     if csv_file and batteries:
         export_to_csv(batteries, csv_file)
@@ -172,7 +146,7 @@ def display_battery_info(csv_file=None):
 def export_to_csv(batteries, csv_file):
     """
     Export battery data to a CSV file
-    
+
     Args:
         batteries (list): List of battery dictionaries
         csv_file (str): Path to CSV file
@@ -182,17 +156,25 @@ def export_to_csv(batteries, csv_file):
     try:
         # Create directory if it doesn't exist
         os.makedirs(os.path.dirname(os.path.abspath(csv_file)), exist_ok=True)
-        
+
         # Write battery data to CSV
-        with open(csv_file, 'w', newline='') as f:
+        with open(csv_file, "w", newline="") as f:
             writer = csv.writer(f)
-            
+
             # Write column headers only
-            writer.writerow([
-                "Serial", "Name", "Cycles", "Flights", 
-                "Min Voltage", "Max Temp", "Flight Time", "Health"
-            ])
-            
+            writer.writerow(
+                [
+                    "Serial",
+                    "Name",
+                    "Cycles",
+                    "Flights",
+                    "Min Voltage",
+                    "Max Temp",
+                    "Flight Time",
+                    "Health",
+                ]
+            )
+
             # Write battery data rows
             for bat in batteries:
                 serial = bat.get("battery_serial", "Unknown")
@@ -203,12 +185,20 @@ def export_to_csv(batteries, csv_file):
                 max_temp = bat.get("max_cell_temp", 0)
                 total_flight_time = format_flight_time(bat.get("total_flight_time", 0))
                 health_status = get_battery_health_status(cycles, min_voltage, max_temp)
-                
-                writer.writerow([
-                    serial, name, cycles, flight_count, 
-                    f"{min_voltage:.2f}", f"{max_temp}°C", total_flight_time, health_status
-                ])
-        
+
+                writer.writerow(
+                    [
+                        serial,
+                        name,
+                        cycles,
+                        flight_count,
+                        f"{min_voltage:.2f}",
+                        f"{max_temp}°C",
+                        total_flight_time,
+                        health_status,
+                    ]
+                )
+
         print(f"\nCSV report saved to: {csv_file}")
     except Exception as e:
         print(f"Error saving CSV file: {e}")
@@ -217,19 +207,22 @@ def export_to_csv(batteries, csv_file):
 # ----------------- MAIN SCRIPT ------------------
 if __name__ == "__main__":
     # Parse command line arguments
-    parser = argparse.ArgumentParser(description="Generate a report of Skydio battery fleet")
+    parser = argparse.ArgumentParser(
+        description="Generate a report of Skydio battery fleet"
+    )
     parser.add_argument(
-        "--csv_file", "-c", 
-        help="Path to CSV file where results will be saved"
+        "--csv_file", "-c", help="Path to CSV file where results will be saved"
     )
     args = parser.parse_args()
-    
+
     print("Fetching battery data from Skydio Cloud API...")
     try:
         display_battery_info(args.csv_file)
     except EnvironmentError as e:
         print(f"Error: {e}")
-        print("Please set the API_TOKEN environment variable before running this script.")
+        print(
+            "Please set the API_TOKEN environment variable before running this script."
+        )
     except Exception as e:
         print(f"Error: {e}")
         print("Tip: Make sure you have a valid API token and network connection.")

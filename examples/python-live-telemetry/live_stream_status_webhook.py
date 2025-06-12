@@ -13,12 +13,12 @@ Usage instructions:
 3. Run the script with the desired arguments:
 
 ```
-python utils/live_stream_status_webhook.py [-optional-arguments]
+python live_stream_status_webhook.py [-optional-arguments]
 ```
 
 For more full details on accepted arguments, run:
 ```
-python utils/live_stream_status_webhook.py -h
+python live_stream_status_webhook.py -h
 ```
 
 Note: we recommend using the demo stream for initial testing. When testing with a simulator or real

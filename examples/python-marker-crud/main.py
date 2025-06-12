@@ -1,15 +1,10 @@
-"""
-This example demonstrates the CRUD (create, read, update, delete) operations for markers with the
-Skydio Cloud API, using a simple SkydioAPIClient.
-"""
-
 import os
 import sys
 import json
 import argparse
 from uuid import uuid4
 import arrow
-from utils.skydio_api_client import SkydioAPIClient
+from .skydio_api_client import SkydioAPIClient
 
 
 def main():

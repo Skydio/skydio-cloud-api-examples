@@ -1,34 +1,3 @@
-"""
-This script demonstrates how to use the Skydio Cloud API to download media files from the most
-recent flight of a given Skydio vehicle. It uses the following endpoints:
-- GET /v0/vehicle/{serial}
-- GET /v0/flights
-- GET /v0/media_files
-- GET /v0/media/download/{uuid}
-- DELETE /v0/media/{uuid}/delete
-
-Usage instructions:
-1. Set up your environment and install the required packages. See the README for details.
-
-2. Set the following environment variables:
-```
-export API_TOKEN="your_token_here"
-```
-
- - API_TOKEN: refers to the token secret, which is only visible immediately after creating the token.
-
-3. Run the script with the desired arguments:
-
-```
-python download_media_for_latest_flight.py [-optional-arguments]
-```
-
-For more full details on accepted arguments, run:
-```
-python download_media_for_latest_flight.py -h
-```
-"""
-
 import os
 import argparse
 import requests

@@ -1,32 +1,3 @@
-"""
-This example demonstrates how to connect to consume a vehicle's live telemetry data after receiving
-a Live Stream Status webhook from Skydio. The script uses FastAPI to handle incoming webhook requests
-and the `websockets` library to establish a websocket connection to the telemetry stream.
-
-Usage instructions:
-1. Set up your environment and install the required packages. See the README for details.
-
-2. Set the following environment variables:
-```
-export API_TOKEN="your_token_here"
-```
-
- - API_TOKEN: refers to the token secret, which is only visible immediately after creating the token.
-
-3. Start the server:
-```
-python live_telemetry.py
-```
-
-4. Send a webhook to the server to start or stop the websocket connection. You can use the
-   live_stream_status_webhook.py script to do this. Make sure that the WEBHOOK_URL is set correctly
-   (see below).
-
-Note: we recommend using the demo stream for initial testing. When testing with a simulator or real
-vehicle, make sure that the websocket URL is correct by comparing it to the one in the Skydio Cloud UI,
-under Settings -> Devices -> Your vehicle -> Connectivity -> Streaming.
-"""
-
 from fastapi import FastAPI, Request
 import asyncio
 import websockets

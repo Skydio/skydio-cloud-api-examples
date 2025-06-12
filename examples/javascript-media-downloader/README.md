@@ -1,4 +1,4 @@
-# Skydio API Media Downloader
+# Skydio API Example: Javascript Media Downloader
 
 This project provides a Node.js Express server that replicates the functionality of the original Python script `download_media_for_latest_flight.py`. The server exposes a POST endpoint (`/download`) that:
 
@@ -7,42 +7,14 @@ This project provides a Node.js Express server that replicates the functionality
 - Downloads media files associated with that flight.
 - Optionally deletes the downloaded media files from Skydio Cloud.
 
-## Prerequisites
+## Usage
 
-- [Node.js](https://nodejs.org/) (version 12 or higher)
-- [npm](https://www.npmjs.com/)
+Follow the instructions in the [README.md](../../README.md) file in the root directory of this repository.
 
-## Setup
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://your-repository-url.git
-   cd your-repository-folder
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Set your API token:**
-
-   The API token should be set as an environment variable. You can either export it directly in your terminal or create a `.env` file (if you're using a package like `dotenv`).
-
-   ```bash
-   export API_TOKEN=your_api_token_here
-   ```
-
-## Running the Server
-
-### Production Mode
-
-Start the server with:
+Then run this script with the desired flight ID: Run the script with the desired arguments:
 
 ```bash
-npm start
+npm run start
 ```
 
 This command will launch the server on port 1337 (or the port specified in the `PORT` environment variable).
@@ -53,9 +25,9 @@ For easier development, this project includes [nodemon](https://nodemon.io/) whi
 
 Run the server in development mode with:
 
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
 ## API Usage
 
