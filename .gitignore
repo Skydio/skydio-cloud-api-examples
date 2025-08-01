@@ -149,3 +149,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+.env
+
+**/.env
+
+**/cad_events.db
