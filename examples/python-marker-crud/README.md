@@ -1,7 +1,9 @@
 # Skydio API Example: Python Marker CRUD
 
-This example demonstrates the CRUD (create, read, update, delete) operations for markers with the
-Skydio Cloud API, using a simple SkydioAPIClient.
+This example demonstrates how to:
+
+- Create a simple Skydio Cloud API Client in Python
+- Use it to perform CRUD (create, read, update, delete) operations for markers.
 
 ## Usage
 
