@@ -1,0 +1,16 @@
+{
+	"marker_details":{
+		"code": "CAD",  
+		"incident_id": "INC-123456",
+		"priority":"1"
+		},   
+	"type": "INCIDENT",
+	"area": "BEAT-42",
+	"description": "Suspicious 'person' reported",
+	"event_time": "2025-12-01T10:15:30",
+	"call_id": "CALL-98765",
+	"latitude": 37.7749,
+	"longitude": -122.4194,
+	"source_name": "YOUR_SOURCE_NAME_HERE",
+	"title": "2025-000123: BURGLARY"
+}

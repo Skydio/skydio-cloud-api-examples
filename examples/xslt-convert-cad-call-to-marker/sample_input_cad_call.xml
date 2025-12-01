@@ -1,0 +1,30 @@
+<NS:Call xmlns:NS="http://www.newworldsystems.com/Aegis/CAD/Peripheral/CallExport/2011/02">
+  <NS:CallSource>CAD</NS:CallSource>
+
+  <NS:Incidents>
+    <NS:Incident>
+      <NS:Jurisdiction>{Your ORI Here}</NS:Jurisdiction>
+      <NS:Number>INC-123456</NS:Number>
+    </NS:Incident>
+  </NS:Incidents>
+
+  <NS:Location>
+    <NS:PoliceBeat>BEAT-42</NS:PoliceBeat>
+    <NS:LatitudeY>37.7749</NS:LatitudeY>
+    <NS:LongitudeX>-122.4194</NS:LongitudeX>
+  </NS:Location>
+
+  <NS:NatureOfCall>Suspicious "person" reported</NS:NatureOfCall>
+
+  <NS:CreateDateTime>2025-12-01T10:15:30</NS:CreateDateTime>
+  <NS:CallId>CALL-98765</NS:CallId>
+  <NS:CallNumber>2025-000123</NS:CallNumber>
+
+  <NS:AgencyContexts>
+    <NS:AgencyContext>
+      <NS:AgencyType>Police</NS:AgencyType>
+      <NS:Priority>1</NS:Priority>
+      <NS:CallType>BURGLARY</NS:CallType>
+    </NS:AgencyContext>
+  </NS:AgencyContexts>
+</NS:Call>
