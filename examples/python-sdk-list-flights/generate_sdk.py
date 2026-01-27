@@ -237,22 +237,22 @@ def clean_skydio_sdk_generated():
 def patch_sdk_for_data_unwrapping(output_dir):
     """
     Patch the generated SDK to automatically unwrap responses from the 'data' field.
-    
+
     Skydio API wraps all responses in a JSON payload with the actual response in the 'data' field.
     This function modifies the ApiClient's deserialize method to handle this automatically.
     """
     print("Patching SDK to unwrap 'data' field from responses...")
-    
+
     api_client_path = Path(output_dir) / "skydio_sdk" / "api_client.py"
-    
+
     if not api_client_path.exists():
         print(f"Warning: Could not find api_client.py at {api_client_path}")
         return
-    
+
     # Read the current content
-    with open(api_client_path, 'r', encoding='utf-8') as f:
+    with open(api_client_path, "r", encoding="utf-8") as f:
         content = f.read()
-    
+
     # Find the deserialize method and patch it
     # We'll add logic to unwrap the 'data' field if it exists
     patch_code = '''
@@ -266,20 +266,19 @@ def patch_sdk_for_data_unwrapping(output_dir):
             return response_data["data"]
         return response_data
 '''
-    
+
     # Insert the helper method before the deserialize method
-    if 'def __deserialize(' in content:
+    if "def __deserialize(" in content:
         # Add the helper method
         content = content.replace(
-            '    def __deserialize(',
-            patch_code + '\n    def __deserialize('
+            "    def __deserialize(", patch_code + "\n    def __deserialize("
         )
-        
+
         # Now modify the __deserialize method to use the helper
         # Find where response_data is first used in deserialization
         # Typically it's after response_data = self.__deserialize_primitive(data, klass)
         # We need to wrap it after getting the data but before type checking
-        
+
         # Look for the pattern where we have the data and are about to deserialize it
         old_pattern = '''    def __deserialize(self, data, klass):
         """Deserializes dict, list, str into an object.
@@ -291,7 +290,7 @@ def patch_sdk_for_data_unwrapping(output_dir):
         """
         if data is None:
             return None'''
-        
+
         new_pattern = '''    def __deserialize(self, data, klass):
         """Deserializes dict, list, str into an object.
 
@@ -305,17 +304,19 @@ def patch_sdk_for_data_unwrapping(output_dir):
         
         if data is None:
             return None'''
-        
+
         if old_pattern in content:
             content = content.replace(old_pattern, new_pattern)
-            
+
             # Write the patched content back
-            with open(api_client_path, 'w', encoding='utf-8') as f:
+            with open(api_client_path, "w", encoding="utf-8") as f:
                 f.write(content)
-            
+
             print("✅ Successfully patched SDK to unwrap 'data' field")
         else:
-            print("⚠️  Warning: Could not find expected deserialize method pattern to patch")
+            print(
+                "⚠️  Warning: Could not find expected deserialize method pattern to patch"
+            )
     else:
         print("⚠️  Warning: Could not find __deserialize method in api_client.py")
 
@@ -375,7 +376,9 @@ Examples:
     print(f"📁 Generated SDK is available in: {output_dir}/")
     print("📁 All SDK files are organized in: ./skydio_sdk_generated/")
     print("📖 Check the README.md in the generated directory for usage instructions.")
-    print("\n🔧 The SDK has been patched to automatically unwrap the 'data' field from API responses.")
+    print(
+        "\n🔧 The SDK has been patched to automatically unwrap the 'data' field from API responses."
+    )
 
 
 if __name__ == "__main__":

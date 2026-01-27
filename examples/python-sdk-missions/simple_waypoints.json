@@ -1,0 +1,22 @@
+[
+  {
+    "latitude_deg": 37.7749,
+    "longitude_deg": -122.4194,
+    "altitude_m": 10,
+    "heading_deg": 0,
+    "pitch_deg": 0,
+    "speed_mps": 5,
+    "photo": true,
+    "video": false
+  },
+  {
+    "latitude_deg": 37.7449,
+    "longitude_deg": -122.4494,
+    "altitude_m": 10,
+    "heading_deg": 0,
+    "pitch_deg": 0,
+    "speed_mps": 5,
+    "photo": true,
+    "video": false
+  }
+]

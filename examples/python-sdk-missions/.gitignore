@@ -1,0 +1,4 @@
+skydio_sdk_generated
+skydio_sdk_generated/**/*
+skydio_sdk_opc
+skydio_sdk_opc/**/*
