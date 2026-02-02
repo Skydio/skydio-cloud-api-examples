@@ -19,16 +19,26 @@ This project demonstrates how to:
 ## Quick Start
 
 ```bash
-# 1. Generate the SDK
+# 1. Create and activate a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# 2. Install certifi (required for SDK generation on macOS)
+pip install --upgrade pip certifi
+
+# 3. Generate the SDK
 export API_TOKEN=<YOUR_SKYDIO_API_TOKEN>
 python generate_sdk.py
 
-# 2. Install dependencies
-pip install httpx attrs python-dateutil requests
+# 4. Install the generated SDK (includes httpx, attrs, python-dateutil)
+pip install -e skydio_sdk_generated/skydio-client
+pip install requests  # For terrain elevation lookup
 
-# 3. Build and upload mission
+# 5. Build and upload a mission
 python main.py simple_waypoints.json --upload
 ```
+
+> **Note**: The `skydio_client` symlink will be broken until you run step 3.
 
 ## Usage
 
@@ -144,3 +154,34 @@ mission = build_mission(waypoints, name="Orbit Mission")
 > - Take a photo every 3rd waypoint
 > 
 > Generate the waypoints and save to JSON."
+
+## Troubleshooting
+
+### SSL Certificate Error on macOS
+
+If you see `CERTIFICATE_VERIFY_FAILED` when running `generate_sdk.py`:
+
+```bash
+pip install --upgrade certifi
+```
+
+The SDK generator uses certifi's CA bundle for SSL verification. This is automatically installed, but if you have issues, ensure it's up to date.
+
+### Old pip version
+
+If you see errors about `pyproject.toml` when installing the generated SDK:
+
+```bash
+pip install --upgrade pip
+pip install -e skydio_sdk_generated/skydio-client
+```
+
+### Missing dependencies
+
+The generated SDK requires these packages (installed automatically):
+- `httpx` - HTTP client
+- `attrs` - Data classes
+- `python-dateutil` - Date parsing
+
+For mission upload functionality, you also need:
+- `requests` - Used for terrain elevation lookup

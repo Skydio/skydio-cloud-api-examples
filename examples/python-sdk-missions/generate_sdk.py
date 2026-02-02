@@ -12,6 +12,7 @@ Usage:
 import argparse
 import json
 import os
+import ssl
 import subprocess
 import sys
 import urllib.request
@@ -46,7 +47,17 @@ def download_openapi_spec(api_token, output_dir):
 
     try:
         req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req) as response:
+
+        # Use certifi CA bundle so macOS Python (python.org installs) verifies SSL correctly.
+        try:
+            import certifi
+            ctx = ssl.create_default_context(cafile=certifi.where())
+        except ImportError:
+            print("Error: could not configure SSL trust store.")
+            print("Try: pip install certifi")
+            raise
+
+        with urllib.request.urlopen(req, context=ctx) as response:
             response_data = response.read().decode("utf-8")
 
         response_json = json.loads(response_data)
@@ -97,8 +108,8 @@ def install_openapi_python_client():
     if importlib.util.find_spec("openapi_python_client") is not None:
         print("openapi-python-client is already installed")
     else:
-        print("Installing openapi-python-client...")
-        run_command([sys.executable, "-m", "pip", "install", "openapi-python-client"])
+        print("Installing openapi-python-client and certifi...")
+        run_command([sys.executable, "-m", "pip", "install", "openapi-python-client", "certifi"])
         print("openapi-python-client installed successfully")
 
 
@@ -134,7 +145,7 @@ def generate_python_sdk(spec_file, output_dir):
     config_content = """
 project_name_override: skydio-client
 package_name_override: skydio_client
-literal_enums: true
+literal_enums: false
 """
     with open(config_file, "w", encoding="utf-8") as f:
         f.write(config_content)

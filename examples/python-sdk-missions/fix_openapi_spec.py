@@ -67,21 +67,57 @@ def fix_file_type(obj):
 
 def fix_invalid_const(obj):
     """
-    Recursively fix invalid 'const' values where const is a list.
+    Recursively fix invalid 'const' values.
 
-    In JSON Schema, 'const' must be a single value. If it's a list,
-    convert it to 'enum' instead.
+    - If const is a list, convert to 'enum'
+    - If const is a boolean, remove it (openapi-python-client doesn't support boolean const)
+      The 'default' and 'type' fields already capture the intended value.
     """
     if isinstance(obj, dict):
-        if "const" in obj and isinstance(obj["const"], list):
-            # Convert const (list) to enum
-            new_obj = {k: v for k, v in obj.items() if k != "const"}
-            new_obj["enum"] = obj["const"]
-            return {key: fix_invalid_const(value) for key, value in new_obj.items()}
+        if "const" in obj:
+            const_val = obj["const"]
+            if isinstance(const_val, list):
+                # Convert const (list) to enum
+                new_obj = {k: v for k, v in obj.items() if k != "const"}
+                new_obj["enum"] = const_val
+                return {key: fix_invalid_const(value) for key, value in new_obj.items()}
+            elif isinstance(const_val, bool):
+                # Remove boolean const - not supported by openapi-python-client
+                new_obj = {k: v for k, v in obj.items() if k != "const"}
+                return {key: fix_invalid_const(value) for key, value in new_obj.items()}
+            else:
+                return {key: fix_invalid_const(value) for key, value in obj.items()}
         else:
             return {key: fix_invalid_const(value) for key, value in obj.items()}
     elif isinstance(obj, list):
         return [fix_invalid_const(item) for item in obj]
+    else:
+        return obj
+
+
+def deduplicate_enums(obj):
+    """
+    Recursively deduplicate enum values.
+
+    Some enums in the spec have duplicate values which causes code generators to fail.
+    This removes duplicates while preserving order.
+    """
+    if isinstance(obj, dict):
+        if "enum" in obj and isinstance(obj["enum"], list):
+            # Deduplicate while preserving order
+            seen = set()
+            unique_enum = []
+            for val in obj["enum"]:
+                if val not in seen:
+                    seen.add(val)
+                    unique_enum.append(val)
+            new_obj = dict(obj)
+            new_obj["enum"] = unique_enum
+            return {key: deduplicate_enums(value) for key, value in new_obj.items()}
+        else:
+            return {key: deduplicate_enums(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [deduplicate_enums(item) for item in obj]
     else:
         return obj
 
@@ -437,6 +473,7 @@ def fix_openapi_spec(openapi_spec):
     openapi_spec = strip_json_schema_meta_properties(openapi_spec)
     openapi_spec = fix_file_type(openapi_spec)
     openapi_spec = fix_invalid_const(openapi_spec)
+    openapi_spec = deduplicate_enums(openapi_spec)
     openapi_spec = fix_array_with_enum(openapi_spec)
 
     # Apply additional fixes for better code generation

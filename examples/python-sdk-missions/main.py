@@ -68,12 +68,13 @@ def main():
             from skydio_client.models import (
                 Oyuk2Ny7392O85U5MissionsPostV1MissionDocumentTemplateBody as MissionTemplateBody,
                 Oyuk2Ny7392O85U5MissionsPostV1MissionDocumentTemplateBodyVehicleContext as VehicleContext,
+                Oyuk2Ny7392O85U5MissionsPostV1MissionDocumentTemplateBodyVehicleContextVehicleClass as VehicleClass,
             )
         except ImportError as e:
             print(f"Error: SDK not available. Run 'python generate_sdk.py' first.\n{e}")
             return
         
-        vehicle_context = VehicleContext(vehicle_class="Skydio X10")
+        vehicle_context = VehicleContext(vehicle_class=VehicleClass.SKYDIO_X10)
         body = MissionTemplateBody(
             mission_template=mission,
             vehicle_context=vehicle_context,

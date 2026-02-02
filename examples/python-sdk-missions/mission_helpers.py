@@ -146,6 +146,18 @@ def build_mission(
             SkillsActionArgsStopVideo,
             SkillsActionArgsTakePhoto,
             SkillsSequenceActionArgs,
+            # Enum types
+            SetObstacleAvoidanceActionArgsOaSetting,
+            PositionXyFrame,
+            PositionZFrame,
+            HeadingFrame,
+            TraversalMotionArgsHeightMode,
+            LookAtMotionArgsHeadingMode,
+            LookAtMotionArgsGimbalPitchMode,
+            CameraSettingsRecordingMode,
+            MissionLostConnectionAction,
+            MissionPostFailureAction,
+            MissionPostMissionAction,
         )
     except (ImportError, ModuleNotFoundError, TypeError) as e:
         raise ImportError(
@@ -165,29 +177,29 @@ def build_mission(
         """Create action sequence for a single waypoint."""
         waypoint_obj = Waypoint(
             xy=PositionXy(
-                frame="GPS",
+                frame=PositionXyFrame.GPS,
                 x=wp_dict["latitude_deg"],
                 y=wp_dict["longitude_deg"],
             ),
             z=PositionZ(
-                frame="WORLD_TAKEOFF",
+                frame=PositionZFrame.WORLD_TAKEOFF,
                 value=wp_dict["altitude_m"],
             ),
             heading=Heading(
                 value=deg_to_rad(wp_dict["heading_deg"]),
-                frame="GPS",
+                frame=HeadingFrame.GPS,
             ),
             gimbal_pitch=GimbalPitch(value=deg_to_rad(wp_dict["pitch_deg"])),
         )
         
         motion_args = MotionArgs(
             traversal_args=TraversalMotionArgs(
-                height_mode="CONSTANT_END",
+                height_mode=TraversalMotionArgsHeightMode.CONSTANT_END,
                 speed=wp_dict.get("speed_mps", 5.0),
             ),
             look_at_args=LookAtMotionArgs(
-                heading_mode="CONSTANT_END",
-                gimbal_pitch_mode="CONSTANT_END",
+                heading_mode=LookAtMotionArgsHeadingMode.CONSTANT_END,
+                gimbal_pitch_mode=LookAtMotionArgsGimbalPitchMode.CONSTANT_END,
             ),
         )
         
@@ -196,7 +208,7 @@ def build_mission(
                 action_key="SetObstacleAvoidance",
                 args=SkillsActionArgsSetObstacleAvoidance(
                     set_obstacle_avoidance=SetObstacleAvoidanceActionArgs(
-                        oa_setting="DEFAULT"
+                        oa_setting=SetObstacleAvoidanceActionArgsOaSetting.DEFAULT
                     )
                 ),
             ),
@@ -224,7 +236,7 @@ def build_mission(
                     args=SkillsActionArgsTakePhoto(
                         take_photo=TakePhotoActionArgs(
                             camera_settings=CameraSettings(
-                                recording_mode="PHOTO_DEFAULT",
+                                recording_mode=CameraSettingsRecordingMode.PHOTO_DEFAULT,
                             ),
                         ),
                         is_skippable=True,
@@ -237,7 +249,7 @@ def build_mission(
                 action_key="SetObstacleAvoidance",
                 args=SkillsActionArgsSetObstacleAvoidance(
                     set_obstacle_avoidance=SetObstacleAvoidanceActionArgs(
-                        oa_setting="DEFAULT"
+                        oa_setting=SetObstacleAvoidanceActionArgsOaSetting.DEFAULT
                     )
                 ),
             )
@@ -279,9 +291,9 @@ def build_mission(
         actions=[root_sequence],
         auto_start=auto_start,
         dock_mission=True,
-        lost_connection_action="RETURN_TO_HOME",
-        post_failure_action="DEFAULT_RETURN",
-        post_mission_action="DEFAULT_RETURN",
+        lost_connection_action=MissionLostConnectionAction.RETURN_TO_HOME,
+        post_failure_action=MissionPostFailureAction.DEFAULT_RETURN,
+        post_mission_action=MissionPostMissionAction.DEFAULT_RETURN,
         rtx_settings=ReturnSettings(
             wait_time=60,
             minimum_height=30,
