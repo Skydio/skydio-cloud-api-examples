@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "restricted-zone-1",
+        "name": "Restricted Area 1",
+        "description": "No-fly zone near airport",
+        "severity": "high"
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -122.40930002639729,
+              37.78398654359252
+            ],
+            [
+              -122.39600155551351,
+              37.774163093343645
+            ],
+            [
+              -122.38872249235206,
+              37.78085850189433
+            ],
+            [
+              -122.40136383160052,
+              37.79131406916653
+            ],
+            [
+              -122.40930002639729,
+              37.78398654359252
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "safe-zone-1",
+        "name": "Authorized Flight Zone",
+        "description": "Approved area for operations",
+        "severity": "low"
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -122.4199525003933,
+              37.7770114008849
+            ],
+            [
+              -122.41175252842717,
+              37.77235796584611
+            ],
+            [
+              -122.40387818094862,
+              37.778635188254455
+            ],
+            [
+              -122.41234579026266,
+              37.78401806801942
+            ],
+            [
+              -122.4199525003933,
+              37.7770114008849
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      }
+    }
+  ]
+}
