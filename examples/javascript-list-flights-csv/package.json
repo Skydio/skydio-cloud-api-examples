@@ -1,0 +1,17 @@
+{
+  "name": "javascript-list-flights",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "description": "Skydio API - List Flights example",
+  "dependencies": {
+    "axios": "^1.8.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
