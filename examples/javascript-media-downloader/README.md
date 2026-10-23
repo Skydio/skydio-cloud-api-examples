@@ -11,7 +11,7 @@ This project provides a Node.js Express server that replicates the functionality
 
 Follow the instructions in the [README.md](../../README.md) file in the root directory of this repository.
 
-Then run this script with the desired flight ID: Run the script with the desired arguments:
+Then run this script:
 
 ```bash
 npm run start
