@@ -1,6 +1,6 @@
 # Skydio API Example: Python Live Telemetry
 
-This example demonstrates how to connect to consume a vehicle's live telemetry data after receiving
+This example demonstrates how to connect to and consume a vehicle's live telemetry data after receiving
 a Live Stream Status webhook from Skydio. The script uses FastAPI to handle incoming webhook requests
 and the `websockets` library to establish a websocket connection to the telemetry stream.
 
