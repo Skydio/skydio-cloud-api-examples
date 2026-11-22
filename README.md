@@ -122,6 +122,32 @@ npm run start
 
 See each example's README.md for specific usage instructions.
 
+### Rust examples
+
+To run a Rust example, you need [Rust](https://www.rust-lang.org/tools/install) (stable) to be installed. Then follow these steps:
+
+Unix:
+
+```bash
+# Navigate to the example directory
+cd examples/rust-<example_name>
+
+# Build and run the script
+cargo run
+```
+
+Windows PowerShell:
+
+```powershell
+# Navigate to the example directory
+cd examples\rust-<example_name>
+
+# Build and run the script
+cargo run
+```
+
+See each example's README.md for specific usage instructions.
+
 ## Using LLMs to Build Integrations
 
 The Skydio Cloud API is comprehensive — sometimes you might want examples tailored to your specific use case, or just need a faster way to consume the documentation and generate a prototype. An LLM (Large Language Model) like [ChatGPT](https://chat.openai.com) or another AI assistant can be used to:
